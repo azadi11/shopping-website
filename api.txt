@@ -1,0 +1,43 @@
+client(front)   request  ----->  server(backend)
+server(backend) response  ---->   client(front) 
+
+Plain Text
+response type: text/html
+response type: text/script
+response type: text/stylesheet
+
+API
+response type: application/xml
+response type: application/json
+
+
+lang ---> xml, json, csv, yaml,...
+articulate ---> rest, restful, graphql
+
+generate:
+backend
+company(free, none-free)
+fake  : EX: fackstoreapi.com
+
+ restful: req, res ----> json
+ crud:
+ get: read All/list data of a resource (sort, filter, search)
+ get: read single data of a resource(details of a resource)
+ post: create a resource
+ put:  update all data a resource
+ patch:  update part of data a resource
+ delete:  delete a resource
+
+
+
+
+
+
+
+
+
+
+
+
+
+

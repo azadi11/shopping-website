@@ -1,10 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Card, Col } from "react-bootstrap";
 
 function ProductCard({ id, title, price, image , manageTotalQty}) {
   // let qty=0;
   const [qty, setQty] = useState(0);
   const [bg, setBg] = useState(false); // false: white, true:success
+
+   //lifecycle hook (hellper function)
+  // useEffect(()=>{
+  //   console.log("only mounting");
+    
+  // }, [])
+  
+  // useEffect(()=>{
+  //   console.log(" mounting  &  uppdating");
+    
+  // })
+  // useEffect(()=>{
+  //   console.log(" mounting  &  bg uppdating");
+    
+  // }, [bg])
   
   const addToCart = () => {
     // qty++  ---> qty= qty+1

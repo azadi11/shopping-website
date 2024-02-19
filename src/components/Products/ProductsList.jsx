@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Row } from "react-bootstrap";
 import ProductCard from "./ProductCard";
 import  image1 from "../../assets/images/pic2.jpg"
@@ -8,34 +8,38 @@ import axios from "axios";
 
 function ProductsList({manageTotalQty}) {
   //ProductCard(20, 30)
-  const productsData = [
-    {
-      id: 1,
-      title: "Mobile",
-      price: 3000.0,
-      image: image1
-    },
-    {
-      id: 2,
-      title: "Laptop",
-      price: 5500.0,
-      image: image2
-    },
-    {
-      id: 3,
-      title: "Tablet",
-      price: 1500.0,
-      image: image3
-    },
-  ];
-  
+  // const productsData = [
+  //   {
+  //     id: 1,
+  //     title: "Mobile",
+  //     price: 3000.0,
+  //     image: image1
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Laptop",
+  //     price: 5500.0,
+  //     image: image2
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Tablet",
+  //     price: 1500.0,
+  //     image: image3
+  //   },
+  // ];
+  // let productsData=[];
+  const [productsData, setProductsData] = useState([])
   // fetch("https://fakestoreapi.com/products")
   // .then((res)=> res.json())
   // .then((data)=> console.log(data))
   // .catch((error)=>console.log(error))
 
   axios.get("https://fakestoreapi.com/products")
-  .then((res)=> console.log(res.data))
+  .then((res)=> {
+    console.log(res.data)
+    setProductsData(res.data)
+  })
   .catch((error)=>console.log(error))
 
   // axios.get("https://fakestoreapi.com/products")

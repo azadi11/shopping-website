@@ -1,63 +1,63 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col } from "react-bootstrap";
 
-function ProductCard({ id, title, price, image , manageTotalQty}) {
+function ProductCard({ id, title, price, image, manageTotalQty }) {
   // let qty=0;
   const [qty, setQty] = useState(0);
-  const [bg, setBg] = useState(false); // false: white, true:success
 
-   //lifecycle hook (hellper function)
-  // useEffect(()=>{
-  //   console.log("only mounting");
-    
-  // }, [])
-  
-  // useEffect(()=>{
-  //   console.log(" mounting  &  uppdating");
-    
-  // })
-  // useEffect(()=>{
-  //   console.log(" mounting  &  bg uppdating");
-    
-  // }, [bg])
-  
+  useEffect(() => {
+    if (localStorage.getItem("cart")) {
+      const productsCardList = JSON.parse(localStorage.getItem("cart"));
+      productsCardList.map((item) => {
+        if (item.id == id) {
+          setQty(item.qty);
+        }
+      });
+    }
+  }, []);
+
   const addToCart = () => {
     // qty++  ---> qty= qty+1
     setQty(qty + 1);
-    manageTotalQty()
-    // console.log(qty);
-  };
+    manageTotalQty();
+    let productsCartList = localStorage.getItem("cart")
+      ? JSON.parse(localStorage.getItem("cart"))
+      : [];
+    productsCartList = productsCartList.map((item) => {
+      if (item.id == id) {
+        item.qty++;
+      }
+      return item;
+    });
 
-  const toggleBg = () => {
-    setBg(!bg);
-  };
+    const product = productsCartList.find((item) => item.id == id);
+    if (!product) {
+      productsCartList.push({
+        id,
+        title,
+        price,
+        image,
+        qty: qty + 1,
+      });
+    }
 
-  // bg?   bg==true   or   bg=="sss"  or bg== 169
-  // !bg?   bg==false   or   bg==""  or bg== 0    or   bg==null
+    localStorage.setItem("cart", JSON.stringify(productsCartList));
+  };
 
   return (
     <div>
       <Col>
-        <Card
-          id={id}
-          style={{ height: "400px" }}
-          className={bg ? "bg-success" : "bg-white"}
-        >
+        <Card id={id} style={{ height: "400px" }}>
           <Card.Img variant="top" src={image} className="h-50" />
           <Card.Body>
             <Card.Title>{title}</Card.Title>
             <Card.Text>{price}</Card.Text>
           </Card.Body>
           <Card.Footer className="d-flex justify-content-between align-items-center">
-            <div>
-              <Button variant="primary" onClick={addToCart}>
-                Add To Cart
-              </Button>
-              <span className="qty">{qty}</span>
-            </div>
-            <Button variant="warning" onClick={toggleBg}>
-              Change Bg
+            <Button variant="primary" onClick={addToCart}>
+              Add To Cart
             </Button>
+            <span className="qty">{qty}</span>
           </Card.Footer>
         </Card>
       </Col>

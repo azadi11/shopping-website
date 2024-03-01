@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './assets/css/App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import  'bootstrap-icons/font/bootstrap-icons.css'
@@ -9,6 +9,7 @@ import Header from './components/layout/Header';
 
 
 function App() {
+
   const linksList=[
     "/",
     "/home",
@@ -19,6 +20,17 @@ function App() {
   ]
   const [totalQty, setTotalQty] = useState(0)
 
+  useEffect(() => {
+    if (localStorage.getItem("cart")) {
+      const productsCardList = JSON.parse(localStorage.getItem("cart"));
+      let tQty=0
+      productsCardList.map((item) => {
+        tQty+=item.qty
+      });
+      setTotalQty(tQty)
+    }
+  }, [])
+  
   const manageTotalQty =()=>{
     setTotalQty(totalQty+1)
   }

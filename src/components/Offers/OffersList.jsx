@@ -34,7 +34,7 @@ function OffersList() {
         <h1>OFFERS</h1>
         <Row>
             {OffersData.map((item)=>(
-                <OffersCards id={item.id} title={item.title} text={item.text}
+                <OffersCards key={item.id} id={item.id} title={item.title} text={item.text}
                 image={item.image}></OffersCards>
             ))}
         </Row>

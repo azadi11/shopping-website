@@ -1,47 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { increaseQty } from "../../redux/slices/cardSlice";
 
-function ProductCard({ id, title, price, image, manageTotalQty }) {
+function ProductCard({ id, title, price, image }) {
   // let qty=0;
   const [qty, setQty] = useState(0);
+  const dispatcher = useDispatch();
+  const myCart = useSelector((state)=>state.cardReducer.cart)
 
   useEffect(() => {
-    if (localStorage.getItem("cart")) {
-      const productsCardList = JSON.parse(localStorage.getItem("cart"));
-      productsCardList.map((item) => {
+    myCart.map((item) => {
         if (item.id == id) {
           setQty(item.qty);
         }
       });
-    }
-  }, []);
+    }, []);
 
   const addToCart = () => {
-    // qty++  ---> qty= qty+1
     setQty(qty + 1);
-    manageTotalQty();
-    let productsCartList = localStorage.getItem("cart")
-      ? JSON.parse(localStorage.getItem("cart"))
-      : [];
-    productsCartList = productsCartList.map((item) => {
-      if (item.id == id) {
-        item.qty++;
-      }
-      return item;
-    });
-
-    const product = productsCartList.find((item) => item.id == id);
-    if (!product) {
-      productsCartList.push({
-        id,
-        title,
-        price,
-        image,
-        qty: qty + 1,
-      });
-    }
-
-    localStorage.setItem("cart", JSON.stringify(productsCartList));
+    dispatcher(increaseQty({id, title, price, image, qty}));
   };
 
   return (
@@ -57,7 +35,7 @@ function ProductCard({ id, title, price, image, manageTotalQty }) {
             <Button variant="primary" onClick={addToCart}>
               Add To Cart
             </Button>
-            <span className="qty">{qty}</span>
+            {qty}
           </Card.Footer>
         </Card>
       </Col>

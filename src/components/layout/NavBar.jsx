@@ -4,19 +4,30 @@ import {
   Container,
   Form,
   Nav,
-  NavDropdown,
   Navbar,
 } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { login, logout } from "../../redux/slices/userSlice";
 
 function NavBar({ links, totalQty }) {
-  // console.log(links);
+  const isLogin = useSelector((state) => state.userReducer.isLogin);
+  const ttQty = useSelector((state) => state.cardReducer.totalQty);
+
+  const dispatcher = useDispatch();
+
+  const loginUser = () => {
+    dispatcher(login());
+  };
+
+  const logoutUser = () => {
+    dispatcher(logout());
+  };
+
   return (
     <Navbar expand="lg" className="bg-body-tertiary px-5">
       <Container fluid>
-        <Navbar.Brand>
-          <Link to="/">Azadi</Link>
-        </Navbar.Brand>
+        <Navbar.Brand as={Link} to="/">Azadi</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
@@ -24,28 +35,9 @@ function NavBar({ links, totalQty }) {
             style={{ maxHeight: "100px" }}
             navbarScroll
           >
-            <Nav.Link>
-              <Link to="/home">Home</Link>
-            </Nav.Link>
-            <Nav.Link>
-              <Link to="/products">Products</Link>
-            </Nav.Link>
-            <Nav.Link>
-              <Link to="/AboutPage">About</Link>
-            </Nav.Link>
-            <NavDropdown title="Link" id="navbarScrollingDropdown">
-              <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action4">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action5">
-                Something else here
-              </NavDropdown.Item>
-            </NavDropdown>
-            <Nav.Link href="#" disabled>
-              Link
-            </Nav.Link>
+            <Nav.Link as={Link} to="/home">Home</Nav.Link>
+            <Nav.Link as={Link} to="/products">Products</Nav.Link>
+            <Nav.Link as={Link} to="/about">About</Nav.Link>
           </Nav>
           <Form className="d-flex">
             <Form.Control
@@ -56,10 +48,21 @@ function NavBar({ links, totalQty }) {
             />
             <Button variant="outline-success">Search</Button>
           </Form>
-          <div className="ms-4 position-relative">
-            <span class="bi bi-cart2 fs-4"></span>
-            <span >{totalQty}</span>
+          <div>
+            {isLogin ? (
+              <Button className="btn btn-primary" onClick={logoutUser}>
+                Logout
+              </Button>
+            ) : (
+              <Button className="btn btn-primary" onClick={loginUser}>
+                Login
+              </Button>
+            )}
           </div>
+          <Link to="/checkout" className="ms-4 position-relative">
+            <span className="bi bi-cart2 fs-4"></span>
+            <span>{ttQty}</span>
+          </Link>
         </Navbar.Collapse>
       </Container>
     </Navbar>

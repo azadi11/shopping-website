@@ -42,8 +42,8 @@ function NewProductList() {
     <div className="container ">
       <h1>NEW PRODUCTS</h1>
       <div className="row row-cols-1 row-cols-md-2 ">
-        {newProducts.map((item) => (
-          <NewProduct title={item.title} text={item.text} />
+        {newProducts.map((item, index) => (
+          <NewProduct key={index+1} title={item.title} text={item.text} />
         ))}
       </div>
     </div>

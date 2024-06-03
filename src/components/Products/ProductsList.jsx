@@ -6,7 +6,7 @@ import  image2 from "../../assets/images/pic3.jpg"
 import  image3 from "../../assets/images/pic4.jpg"
 import axios from "axios";
 
-function ProductsList({manageTotalQty}) {
+function ProductsList() {
   
   const [productsData, setProductsData] = useState([])
    
@@ -30,7 +30,7 @@ function ProductsList({manageTotalQty}) {
     <Container>
       <Row xs={1} md={3} lg={4} className="g-4">
         {productsData.map((item) => (
-          <ProductCard manageTotalQty={manageTotalQty} id={item.id} title={item.title} price={item.price} image={item.image} />
+          <ProductCard key={item.id} id={item.id} title={item.title} price={item.price} image={item.image} />
         ))}
       </Row>
     </Container>
